@@ -1,5 +1,4 @@
 const path = require('path');
-const incstr = require('incstr');
 
 const DefinePlugin = require('webpack').DefinePlugin;
 const TsConfigPathsPlugin = require('awesome-typescript-loader').TsConfigPathsPlugin;
@@ -7,38 +6,6 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const InterpolateHtmlPlugin = require('interpolate-html-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CopyPlugin = require('copy-webpack-plugin');
-
-const createUniqueIdGenerator = () => {
-  const index = {};
-
-  const generateNextId = incstr.idGenerator({
-    alphabet: 'abcefghijklmnopqrstuvwxyz0123456789'
-  });
-
-  return (name) => {
-    if (index[name]) {
-      return index[name];
-    }
-
-    let nextId;
-
-    do {
-      nextId = generateNextId();
-    } while (/^[0-9]/.test(nextId));
-
-    index[name] = generateNextId();
-
-    return index[name];
-  };
-};
-
-const uniqueIdGenerator = createUniqueIdGenerator();
-
-const generateScopedName = (localName, resourcePath) => {
-  const componentName = resourcePath.split('/').slice(-2, -1);
-
-  return uniqueIdGenerator(componentName) + '_' + uniqueIdGenerator(localName);
-};
 
 module.exports = (env, { mode }) => {
   const [DEV, PROD] = ['development', 'production'];
