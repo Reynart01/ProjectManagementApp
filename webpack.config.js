@@ -6,6 +6,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const InterpolateHtmlPlugin = require('interpolate-html-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CopyPlugin = require('copy-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = (env, { mode }) => {
   const [DEV, PROD] = ['development', 'production'];
@@ -100,6 +101,16 @@ module.exports = (env, { mode }) => {
         // mode === DEV
         //   ? "'https://pillar-api-dev.azurewebsites.net/api/'"
         //   : "'https://pillar-api.azurewebsites.net/api/'"
+      }),
+      new WorkboxPlugin.GenerateSW({
+        clientsClaim: true,
+        skipWaiting: true,
+        runtimeCaching: [
+          {
+            urlPattern: new RegExp('localhost:3000/*'),
+            handler: 'StaleWhileRevalidate'
+          }
+        ]
       })
     ],
 
