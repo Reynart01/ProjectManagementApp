@@ -1,0 +1,34 @@
+@import 'styles/mixins';
+
+.forkTemplate {
+  @include colCenter;
+  padding: 48px;
+  height: 300px;
+  width: 442px;
+
+  & > h3 {
+    @include heading;
+
+    &.error {
+      color: $error;
+    }
+
+    span {
+      color: $primary;
+    }
+  }
+
+  & > span {
+    @include description;
+    margin: 22px 0 68px 0;
+    text-align: center;
+  }
+
+  footer {
+    @include row;
+
+    .retryBtn {
+      margin-left: 32px;
+    }
+  }
+}
